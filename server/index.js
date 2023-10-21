@@ -23,7 +23,12 @@ app.get('/api/employee', async (req, res) => {
 });
 
 
-app.post('/api/employee', async (req, res) => {
+app.post('/api/service', async (req, res) => {
+  const serviceType = req.body.type;
+  const serviceDescription = req.body.description;
+
+  let service = {"type":serviceType, "description":serviceDescription}
+
   try {
     const serviceId = await db.insertService(service);   //il posto compare nello stato di richiesto (non ancora assegnato)
     console.log(serviceId)
@@ -35,6 +40,32 @@ app.post('/api/employee', async (req, res) => {
   }
 });
 
+app.post('/api/ticket', async (req, res) => {
+  const service = req.body.service;
+  const officer = req.body.officer;
+  const help_desk_number = req.body.help_desk_number; //deciso dall'admin
+
+  //vado a cercare ticket con stesso servizio 
+  try {
+    let lastTicket = await db.searchLastTicket(service)
+    let ticket  = {"service":service, "officer":officer, "customer_number":lastTicket+1, "help_desk_num":help_desk_number}
+
+    try {
+      const ticketId = await db.inserTicket(ticket);   //il posto compare nello stato di richiesto (non ancora assegnato)
+    } catch (err) {
+      if (err.errno == 19)
+        return res.status(503).json({ error: 'Alcuni tra i posti selezionati sono duplicati!'});
+      else
+        return res.status(503).json({ error: "Errore nell'inserimento sul database " });
+    }
+  } catch(err) {
+    res.status(500).end();
+  }
+  //il customer number deve essere calcolato in base a cosa si trova all'interno della tabella ticket con lo stesso servizio
+
+
+  
+});
 
 app.listen(port, () => {
     console.log(`react-qa-server listening at http://localhost:${port}`);
