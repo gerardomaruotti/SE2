@@ -1,0 +1,28 @@
+create TABLE TICKET  (
+  id_ticket  INTEGER PRIMARY KEY AUTOINCREMENT,
+  service INTEGER NOT NULL, /* service foreign key*/
+  officer INTEGER NOT NULL, /*employee foreign key*/
+  customer_number integer not NULL, /*It will be calculated adding one at thre previous with the same service*/
+  help_desk_num INTEGER not null  /*specify in which help desk the customer has to go i.e 1,2,3..*/
+ );
+ 
+ CREATE TABLE EMPLOYEE(
+   id_employee INTEGER  PRIMARY KEY  AUTOINCREMENT ,
+   name VARCHAR(25),
+   surname VARCHAR(25),
+   role VARCHAR(25)
+ )
+
+ Create TABLE SERVICE(
+ 	id_service INTEGER primary key AUTOINCREMENT ,
+ 	type VARCHAR(25) NOT NULL,
+    description VARCHAR(25) NOT NULL
+  )
+  
+ /*amdin,officer,manager"*/
+ INSERT INTO EMPLOYEE (name,surname,role) VALUES ("Pippo","Baudo","admin") ;
+ INSERT INTO EMPLOYEE (name,surname,role) VALUES ("Luca","Fontana","manager") ;
+ INSERT INTO EMPLOYEE (name,surname,role) VALUES ("Claudio","Bisio","officer") ;
+  
+  
+  
