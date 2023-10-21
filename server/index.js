@@ -12,10 +12,6 @@ const app = express();
 app.use(express.json());
 
 
-
-
-
-
 app.get('/api/employee', async (req, res) => {
   try {
     const employee = await db.listOfEmployee()
@@ -27,6 +23,17 @@ app.get('/api/employee', async (req, res) => {
 });
 
 
+app.post('/api/employee', async (req, res) => {
+  try {
+    const serviceId = await db.insertService(service);   //il posto compare nello stato di richiesto (non ancora assegnato)
+    console.log(serviceId)
+  } catch (err) {
+    if (err.errno == 19)
+      return res.status(503).json({ error: 'Alcuni tra i posti selezionati sono duplicati!'});
+    else
+      return res.status(503).json({ error: "Errore nell'inserimento sul database " });
+  }
+});
 
 
 app.listen(port, () => {

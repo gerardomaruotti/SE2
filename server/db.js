@@ -29,3 +29,18 @@ exports.listOfEmployee = () => {
 
     });
 };
+
+
+
+exports.insertService = (service) => {
+  return new Promise((resolve, reject) => {
+    const sql = 'INSERT INTO service(type, description) VALUES(?, ?)';
+    db.run(sql, [service.type, service.description], function (err) {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(this.lastID);
+    });
+  });
+};
