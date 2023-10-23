@@ -15,7 +15,7 @@ exports.listOfEmployee = () => {
           reject(err);
           return;
         }
-        const aereo = rows.map((e) => (
+        const employee = rows.map((e) => (
           {
             id: e.id_employee,
             name: e.name,
@@ -23,12 +23,38 @@ exports.listOfEmployee = () => {
             role: e.role,
           })
         );
-        resolve(aereo)
+        resolve(employee)
         
       });
 
     });
 };
+
+//list of the services --> needed in the fronted when the administrator has to setup a queue 
+//admin select the service from the list
+exports.listOfService = () => {
+  return new Promise((resolve, reject) => {
+    const sql = 'select * from service';
+
+    db.all(sql, (err, rows) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      const service = rows.map((e) => (
+        {
+          id: e.id_service,
+          type: e.type,
+          description: e.description,
+        })
+      );
+      resolve(service)
+      
+    });
+
+  });
+};
+
 
 
 

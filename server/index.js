@@ -23,6 +23,18 @@ app.get('/api/employee', async (req, res) => {
 });
 
 
+app.get('/api/services', async (req, res) => {
+  try {
+    const service = await db.listOfService()
+    console.log(service)
+    res.status(200).json(service);
+  } catch(err) {
+    res.status(500).end();
+  }
+});
+
+
+
 app.post('/api/service', async (req, res) => {
   const serviceType = req.body.type;
   const serviceDescription = req.body.description;
