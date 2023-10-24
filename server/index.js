@@ -37,39 +37,54 @@ app.get('/api/services', async (req, res) => {
 
 app.post('/api/service', async (req, res) => {
   const serviceType = req.body.type;
-  const serviceDescription = req.body.description;
+  const timeToServe = req.body.time;
 
-  let service = {"type":serviceType, "description":serviceDescription}
+  let service = {"type":serviceType, "time":timeToServe }
 
   try {
     const serviceId = await db.insertService(service);   //il posto compare nello stato di richiesto (non ancora assegnato)
     console.log(serviceId)
   } catch (err) {
-    if (err.errno == 19)
-      return res.status(503).json({ error: 'Alcuni tra i posti selezionati sono duplicati!'});
-    else
-      return res.status(503).json({ error: "Errore nell'inserimento sul database " });
+      return res.status(503).json({ error: 'Errore nell inserimento'});
   }
 });
 
-app.post('/api/ticket', async (req, res) => {
+
+app.post('/api/helpdesk', async (req, res) => {
   const service = req.body.service;
   const officer = req.body.officer;
-  const help_desk_number = req.body.help_desk_number; //deciso dall'admin
+  let helpdesk  = {"service":service, "officer":officer}
+
+  try {
+    const helpdeskId = await db.insertHelpDesk(helpdesk);   //il posto compare nello stato di richiesto (non ancora assegnato)
+  } catch (err) {
+      return res.status(503).json({ error: 'Errore nell inserimento'});
+  }
+})
+
+
+app.post('/api/ticket', async (req, res) => {
+  const service = req.body.service;
+  const help_desk_number = req.body.helpdesk; //deciso dall'admin
 
   //vado a cercare ticket con stesso servizio 
   try {
-    let lastTicket = await db.searchLastTicket(service)
-    let ticket  = {"service":service, "officer":officer, "customer_number":lastTicket+1, "help_desk_num":help_desk_number}
-
-    try {
-      const ticketId = await db.inserTicket(ticket);   //il posto compare nello stato di richiesto (non ancora assegnato)
-    } catch (err) {
-      if (err.errno == 19)
-        return res.status(503).json({ error: 'Alcuni tra i posti selezionati sono duplicati!'});
-      else
-        return res.status(503).json({ error: "Errore nell'inserimento sul database " });
+      //controllare che ci sia il service con lo specifico helpdesk prima di eseguire inserimento, altrimenti --> errore inserimento
+    
+    let service_exist_helpdesk = await db.searchHelpdeskService(service, help_desk_number)
+    if (service_exist_helpdesk == -1)
+      res.status(503).json({ error: 'Errore nell inserimento ticket, il service non corrisponde al helpdesk'});
+    else{
+      let lastTicket = await db.searchLastTicket(service, help_desk_number)
+      let ticket  = {"customer_number":lastTicket+1, "help_desk_num":help_desk_number}
+  
+      try {
+        const ticketId = await db.inserTicket(ticket);   //il posto compare nello stato di richiesto (non ancora assegnato)
+      } catch (err) {
+        return res.status(503).json({ error: 'Errore nell inserimento'});
+      }
     }
+    
   } catch(err) {
     res.status(500).end();
   }
