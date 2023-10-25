@@ -54,8 +54,7 @@ exports.listOfCounter = () => {
 
 //list of the services --> needed in the fronted when the administrator has to setup a queue 
 //admin select the service from the list
-exports.listOfService = () => {
-  let service = [];
+exports.listOfServices = () => {
   return new Promise((resolve, reject) => {
     const sql = 'select * from service  ';
 
@@ -65,7 +64,7 @@ exports.listOfService = () => {
         return;
       }
       
-      service = rows.map((e) => (
+      const services = rows.map((e) => (
         {
           id: e.id_service,
           type: e.service_type,
@@ -75,29 +74,52 @@ exports.listOfService = () => {
       );
       
 
-      resolve(service)
+      resolve(services)
     });
   });
 };
 
-exports.listOfCounter_service = (id_service) => {
-  let push_count = new Array();
+
+exports.getService=(id_service) => {
+  return new Promise((resolve,reject)=>{
+    const sql='SELECT * FROM SERVICE WHERE id_service=?';
+    db.get(sql,[id_service],(err,row)=>{
+      if(err){
+        reject(err);
+        return;
+      }
+        const service={
+          id: row.id_service,
+          type: row.service_type,
+          time: row.service_time
+        }
+
+        
+        resolve(service);
+        
+    })
+  })
+}
+
+exports.listOfCounterService = (id_service) => {
   return new Promise((resolve, reject) => {
-    const sql1 = 'select counter from helpdesk where service = ?';
-    db.all(sql1, [id_service], (err, rows2) => {
+    const sql = 'select counter from helpdesk where service = ?';
+    db.all(sql, [id_service], (err, rows) => {
       if (err) {
         reject(err);
         return;
       }
-      rows2.forEach(count =>{
-        push_count.push(count.counter)
-      });
-      resolve(push_count)
-    });
+
+      const counters= rows.map(counter => (
+        {
+            id_counter: counter.counter,
+        })
+    );
+
+    resolve(counters);
   });
-
-}
-
+})
+};
 
 
 
@@ -118,7 +140,6 @@ exports.insertService = (service) => {
 exports.insertHelpDesk = (serviceId, countList) => {
   return new Promise ((resolve,reject) => {
     countList.forEach(countId => {
-      console.log("count: " + countId)
       const sql = 'INSERT INTO helpdesk(counter, service) VALUES(?, ?)';
       db.run(sql, [countId, serviceId], function (err) {
         if (err) {
@@ -153,7 +174,6 @@ exports.searchLastTicket = (service) => {
       if (row.max_num==null)
         resolve(0)
       else
-        console.log(row.max_num)
         resolve(row.max_num)
     });
 
@@ -175,5 +195,17 @@ exports.inserTicket = (ticket) => {
 };
 
 
+exports.deleteService=(id_service) => {
+  return new Promise((resolve,reject)=>{
+    const sql='DELETE FROM SERVICE WHERE id_service=?';
+    db.run(sql,[id_service],function(err){
+      if(err){
+        reject(err);
+        return;
+      }
 
+      resolve(true);
+    })
+  })
+}
 

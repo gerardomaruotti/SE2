@@ -1,4 +1,4 @@
-#### get the list of employee
+#### get the list of employe
 GET http://localhost:3001/api/employee HTTP/1.1
 Content-Type: application/json
 
@@ -14,13 +14,6 @@ Content-Type: application/json
 
 #### get the list of services available
 GET http://localhost:3001/api/services HTTP/1.1
-Content-Type: application/json
-
-{
-}
-
-#### get the list of counter available
-GET http://localhost:3001/api/counter HTTP/1.1  
 Content-Type: application/json
 
 {
@@ -42,5 +35,14 @@ POST http://localhost:3001/api/ticket HTTP/1.1
 Content-Type: application/json
 
 {
-    "service":44
+    "service":2
+}
+
+
+
+######
+DELETE http://localhost:3001/api/services/2/delete HTTP/1.1
+Content-Type: application/json
+
+{
 }

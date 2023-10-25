@@ -20,7 +20,6 @@ app.use(cors(corsOptions));
 app.get('/api/employee', async (req, res) => {
   try {
     const employee = await db.listOfEmployee()
-    console.log(employee)
     res.status(200).json(employee);
   } catch (err) {
     res.status(500).end();
@@ -31,7 +30,6 @@ app.get('/api/employee', async (req, res) => {
 app.get('/api/counter', async (req, res) => {
   try {
     const counters = await db.listOfCounter()
-    console.log(counters)
     res.status(200).json(counters);
   } catch (err) {
     res.status(500).end();
@@ -40,15 +38,13 @@ app.get('/api/counter', async (req, res) => {
 
 app.get('/api/services', async (req, res) => {
   try {
-    const service = await db.listOfService()
+    const services = await db.listOfServices()
     
-    for (let i=0; i<service.length; i++){
-      const counter_service = await db.listOfCounter_service(service[i].id)
-      console.log(counter_service)
-      service[i].counters = counter_service;
+    for (let i=0; i<services.length; i++){
+      const counter_service = await db.listOfCounterService(services[i].id)
+      services[i].counters = counter_service;
     }
-    console.log(service)
-    res.status(200).json(service);
+    res.status(200).json(services);
   } catch (err) {
     res.status(500).end();
   }
@@ -58,8 +54,6 @@ app.post('/api/service', async (req, res) => {
   const serviceType = req.body.type;
   const timeToServe = req.body.time;
   const counterList = req.body.counterList;
-
-  console.log(counterList);
 
   let service = { "type": serviceType, "time": timeToServe  }
 
@@ -87,7 +81,6 @@ app.post('/api/ticket', async (req, res) => {
       res.status(503).json({ error: 'Errore nell inserimento ticket, il service non corrisponde a nessun helpdesk' });
     else {
       let lastTicket = await db.searchLastTicket(service)
-      console.log("--> " + lastTicket)
       let ticket = { "customer_number": lastTicket + 1, "service":service }
 
       try {
@@ -103,9 +96,29 @@ app.post('/api/ticket', async (req, res) => {
   }
   //il customer number deve essere calcolato in base a cosa si trova all'interno della tabella ticket con lo stesso servizio
 
-
-
 });
+
+app.delete("/api/services/:idS/delete",[
+  check('idS').isInt({min:1})
+],async(req,res)=>{
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({errors: errors.array()});
+  }
+  
+  const service=db.getService(req.params.idS);
+  if(service){
+    try {
+      await db.deleteService(req.params.idS);
+      res.status(200).json({ message: "Delete successful" });
+       
+    } catch (err) {
+      console.log(err);
+      res.status(503).json({ error: `Database error during the delete of service ${service.type}.` });
+    }
+  }
+  
+})
 
 app.listen(port, () => {
   console.log(`react-qa-server listening at http://localhost:${port}`);
