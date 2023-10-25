@@ -54,7 +54,9 @@ function Login(props) {
 							minLength={6}
 						/>
 					</Form.Group>
-					<Button type='submit'>Login</Button>
+					<div className="d-grid">
+						<Button type='submit'>Login</Button>
+					</div>
 				</Form>
 			</Col>
 		</Row>
