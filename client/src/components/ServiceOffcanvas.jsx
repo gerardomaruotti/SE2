@@ -7,6 +7,8 @@ function ServiceOffcanvas(props) {
 	const show = props.show;
 	const [service, setService] = useState('');
 	const [counters, setCounters] = useState([]);
+	const [time, setTime] = useState(0);
+
 	function handleClose() {
 		props.setShow(false);
 		setService('');
@@ -36,6 +38,10 @@ function ServiceOffcanvas(props) {
 					<Form.Group className='mb-3' controlId='formServiceName'>
 						<Form.Label>Service Name</Form.Label>
 						<Form.Control type='text' value={service} onChange={(event) => setService(event.target.value)} placeholder='Enter name' />
+					</Form.Group>
+					<Form.Group className='mb-3' controlId='formAverageTime'>
+						<Form.Label>Average Time</Form.Label>
+						<Form.Control type='number' value={time} onChange={(event) => setTime(event.target.value)} placeholder='Enter average time in seconds' />
 					</Form.Group>
 					<Form.Group className='mb-3' controlId='formCounterSelection'>
 						<Form.Label>Select Counters</Form.Label>
