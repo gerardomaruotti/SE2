@@ -45,7 +45,12 @@ function ServiceOffcanvas(props) {
 							required
 							type='number'
 							value={time}
-							onChange={(event) => setTime(event.target.value)}
+							onChange={(event) => {
+								const value = event.target.value;
+								if (value >= 0) {
+									setTime(value);
+								}
+							}}
 							placeholder='Enter average time in seconds'
 						/>
 					</Form.Group>
