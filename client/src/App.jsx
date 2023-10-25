@@ -5,13 +5,23 @@ import Login from './views/Login';
 import Officer from './views/Officer';
 import Admin from './views/Admin';
 import MyNavbar from './components/MyNavbar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import API from './API'
 
 function App() {
 	const [show, setShow] = useState(false);
 	const [user, setUser] = useState(null);
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [popup, setPopup] = useState(false);
+	const [services, setServices] = useState([]);
+
+	useEffect(() => {
+		API.getServices()
+			.then((services) => {
+				setServices(services);
+			})
+			.catch((err) => handleError(err));
+	}, []);
 
 	const handleLogout = () => {
 		// await API.logOut();
@@ -23,7 +33,7 @@ function App() {
 		<BrowserRouter>
 			<MyNavbar loggedIn={loggedIn} logout={handleLogout} />
 			<Routes>
-				<Route path='/' element={<Home popup={popup} setPopup={setPopup} />} />
+				<Route path='/' element={<Home popup={popup} setPopup={setPopup} services={services} />} />
 				<Route path='/login' element={<Login show={show} setShow={setShow} />} />
 				<Route path='/officer' element={<Officer popup={popup} setPopup={setPopup} />} />
 				<Route path='/admin' element={<Admin />} />
