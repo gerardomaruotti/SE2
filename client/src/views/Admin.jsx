@@ -1,7 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Table, Row, Col, Button, Container } from 'react-bootstrap';
+import ServiceOffcanvas from '../components/ServiceOffcanvas';
+import { useState } from 'react';
 
 function Admin() {
+	const [showOffcanvas, setShowOffcanvas] = useState(false);
 	return (
 		<>
 			<Container>
@@ -121,11 +124,16 @@ function Admin() {
 						</Table>
 					</Col>
 				</Row>
-
-				<Button size='lg' variant='primary' style={{ position: 'absolute', bottom: 50, right: 50, borderRadius: 100 }}>
+				<Button
+					size='lg'
+					variant='primary'
+					style={{ position: 'absolute', bottom: 50, right: 50, borderRadius: 100 }}
+					onClick={() => setShowOffcanvas(true)}
+				>
 					+
 				</Button>
 			</Container>
+			<ServiceOffcanvas show={showOffcanvas} setShow={setShowOffcanvas} />
 		</>
 	);
 }

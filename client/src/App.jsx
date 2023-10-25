@@ -4,7 +4,6 @@ import Home from './views/Home';
 import Login from './views/Login';
 import Officer from './views/Officer';
 import Admin from './views/Admin';
-import Service from './views/Service';
 import MyNavbar from './components/MyNavbar';
 import { useState } from 'react';
 
@@ -28,7 +27,6 @@ function App() {
 				<Route path='/login' element={<Login show={show} setShow={setShow} />} />
 				<Route path='/officer' element={<Officer popup={popup} setPopup={setPopup} />} />
 				<Route path='/admin' element={<Admin />} />
-				<Route path='admin/:id' element={<Service />} />
 				<Route path='/*' element={<Home />} />
 			</Routes>
 		</BrowserRouter>

@@ -29,7 +29,9 @@ function Login(props) {
 		<Container>
 			<Row className='justify-content-md-center mt-5'>
 				<Col md={5}>
-					<h1 className='pb-3'>Log in to your account</h1>
+					<h1 className='pb-3' style={{ textAlign: 'center' }}>
+						Log in to your account
+					</h1>
 					<Form onSubmit={handleSubmit}>
 						<Alert dismissible show={show} onClose={() => props.setShow(false)} variant='danger'>
 							{errorMessage}
@@ -55,7 +57,7 @@ function Login(props) {
 								minLength={6}
 							/>
 						</Form.Group>
-						<div className="d-grid">
+						<div className='d-grid'>
 							<Button type='submit'>Login</Button>
 						</div>
 					</Form>
