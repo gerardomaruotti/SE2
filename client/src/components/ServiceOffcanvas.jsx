@@ -37,15 +37,21 @@ function ServiceOffcanvas(props) {
 				<Form onSubmit={handleSubmit}>
 					<Form.Group className='mb-3' controlId='formServiceName'>
 						<Form.Label>Service Name</Form.Label>
-						<Form.Control type='text' value={service} onChange={(event) => setService(event.target.value)} placeholder='Enter name' />
+						<Form.Control required type='text' value={service} onChange={(event) => setService(event.target.value)} placeholder='Enter name' />
 					</Form.Group>
 					<Form.Group className='mb-3' controlId='formAverageTime'>
 						<Form.Label>Average Time</Form.Label>
-						<Form.Control type='number' value={time} onChange={(event) => setTime(event.target.value)} placeholder='Enter average time in seconds' />
+						<Form.Control
+							required
+							type='number'
+							value={time}
+							onChange={(event) => setTime(event.target.value)}
+							placeholder='Enter average time in seconds'
+						/>
 					</Form.Group>
 					<Form.Group className='mb-3' controlId='formCounterSelection'>
 						<Form.Label>Select Counters</Form.Label>
-						<Select options={counterslist} isMulti='true' />
+						<Select required options={counterslist} isMulti='true' />
 					</Form.Group>
 					<div className='d-grid'>
 						<Button variant='primary' type='submit'>
