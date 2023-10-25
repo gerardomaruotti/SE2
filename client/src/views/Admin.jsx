@@ -14,7 +14,8 @@ function Admin() {
 							<thead>
 								<tr>
 									<th>Service</th>
-									<th>Counters</th>
+									<th style={{ textAlign: 'center' }}>Counters</th>
+									<th style={{ textAlign: 'center' }}>Average time</th>
 									<th></th>
 									<th></th>
 								</tr>
@@ -22,7 +23,8 @@ function Admin() {
 							<tbody>
 								<tr>
 									<td>Servizio 1</td>
-									<td>2</td>
+									<td style={{ textAlign: 'center' }}>2</td>
+									<td style={{ textAlign: 'center' }}>5</td>
 									<td style={{ textAlign: 'right' }}>
 										<Button size='sm' variant='outline-danger' style={{ borderRadius: 20, width: 50, display: 'inline-block', marginRight: 10 }}>
 											<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' className='bi bi-trash' viewBox='0 0 16 16'>
@@ -47,7 +49,8 @@ function Admin() {
 								</tr>
 								<tr>
 									<td>Servizio 2</td>
-									<td>5</td>
+									<td style={{ textAlign: 'center' }}>5</td>
+									<td style={{ textAlign: 'center' }}>2</td>
 									<td style={{ textAlign: 'right' }}>
 										<Button size='sm' variant='outline-danger' style={{ borderRadius: 20, width: 50, display: 'inline-block', marginRight: 10 }}>
 											<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' className='bi bi-trash' viewBox='0 0 16 16'>
@@ -72,7 +75,8 @@ function Admin() {
 								</tr>
 								<tr>
 									<td>Servizio 3</td>
-									<td>1</td>
+									<td style={{ textAlign: 'center' }}>1</td>
+									<td style={{ textAlign: 'center' }}>5</td>
 									<td style={{ textAlign: 'right' }}>
 										<Button size='sm' variant='outline-danger' style={{ borderRadius: 20, width: 50, display: 'inline-block', marginRight: 10 }}>
 											<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' className='bi bi-trash' viewBox='0 0 16 16'>
@@ -97,7 +101,8 @@ function Admin() {
 								</tr>
 								<tr>
 									<td>Servizio 4</td>
-									<td>0</td>
+									<td style={{ textAlign: 'center' }}>0</td>
+									<td style={{ textAlign: 'center' }}>3</td>
 									<td style={{ textAlign: 'right' }}>
 										<Button size='sm' variant='outline-danger' style={{ borderRadius: 20, width: 50, display: 'inline-block', marginRight: 10 }}>
 											<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' className='bi bi-trash' viewBox='0 0 16 16'>
