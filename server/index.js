@@ -44,6 +44,7 @@ app.post('/api/service', async (req, res) => {
   try {
     const serviceId = await db.insertService(service);   //il posto compare nello stato di richiesto (non ancora assegnato)
     console.log(serviceId)
+      return res.status(200).json("Inserimento avvenuto con successo")
   } catch (err) {
       return res.status(503).json({ error: 'Errore nell inserimento'});
   }
@@ -57,6 +58,7 @@ app.post('/api/helpdesk', async (req, res) => {
 
   try {
     const helpdeskId = await db.insertHelpDesk(helpdesk);   //il posto compare nello stato di richiesto (non ancora assegnato)
+    res.status(200).json("Configurazione helpdesk avvenuta con successo")
   } catch (err) {
       return res.status(503).json({ error: 'Errore nell inserimento'});
   }
@@ -80,6 +82,7 @@ app.post('/api/ticket', async (req, res) => {
   
       try {
         const ticketId = await db.inserTicket(ticket);   //il posto compare nello stato di richiesto (non ancora assegnato)
+        res.status(200).json("Inserimento ticket avvenuto con successo")
       } catch (err) {
         return res.status(503).json({ error: 'Errore nell inserimento'});
       }
