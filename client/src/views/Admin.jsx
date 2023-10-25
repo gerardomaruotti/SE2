@@ -1,10 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Admin() {
-
-    return (
-        <p>Admin</p>
-    )
+	return <p>Admin</p>;
 }
 
-export default Admin
+export default Admin;
