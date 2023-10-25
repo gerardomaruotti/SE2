@@ -28,9 +28,25 @@ app.get('/api/employee', async (req, res) => {
 });
 
 
+app.get('/api/counter', async (req, res) => {
+  try {
+    const counters = await db.listOfCounter()
+    console.log(counters)
+    res.status(200).json(counters);
+  } catch (err) {
+    res.status(500).end();
+  }
+});
+
 app.get('/api/services', async (req, res) => {
   try {
     const service = await db.listOfService()
+    
+    for (let i=0; i<service.length; i++){
+      const counter_service = await db.listOfCounter_service(service[i].id)
+      console.log(counter_service)
+      service[i].counters = counter_service;
+    }
     console.log(service)
     res.status(200).json(service);
   } catch (err) {
@@ -38,17 +54,19 @@ app.get('/api/services', async (req, res) => {
   }
 });
 
-
-
 app.post('/api/service', async (req, res) => {
   const serviceType = req.body.type;
   const timeToServe = req.body.time;
+  const counterList = req.body.counterList;
 
-  let service = { "type": serviceType, "time": timeToServe }
+  console.log(counterList);
+
+  let service = { "type": serviceType, "time": timeToServe  }
 
   try {
     const serviceId = await db.insertService(service);   //il posto compare nello stato di richiesto (non ancora assegnato)
-    console.log(serviceId)
+    const helpDesk = await db.insertHelpDesk(serviceId, counterList)
+
     return res.status(200).json("Inserimento avvenuto con successo")
   } catch (err) {
     return res.status(503).json({ error: 'Errore nell inserimento' });
@@ -56,34 +74,21 @@ app.post('/api/service', async (req, res) => {
 });
 
 
-app.post('/api/helpdesk', async (req, res) => {
-  const service = req.body.service;
-  const officer = req.body.officer;
-  let helpdesk = { "service": service, "officer": officer }
 
-  try {
-    const helpdeskId = await db.insertHelpDesk(helpdesk);   //il posto compare nello stato di richiesto (non ancora assegnato)
-    res.status(200).json("Configurazione helpdesk avvenuta con successo")
-  } catch (err) {
-    return res.status(503).json({ error: 'Errore nell inserimento' });
-  }
-})
 
 
 app.post('/api/ticket', async (req, res) => {
-  const service = req.body.service;
-  const help_desk_number = req.body.helpdesk; //deciso dall'admin
+  const service = req.body.service; //deciso dall'admin
 
-  //vado a cercare ticket con stesso servizio 
   try {
-    //controllare che ci sia il service con lo specifico helpdesk prima di eseguire inserimento, altrimenti --> errore inserimento
-
-    let service_exist_helpdesk = await db.searchHelpdeskService(service, help_desk_number)
+    //controllare che ci sia il service 
+    let service_exist_helpdesk = await db.searchHelpdeskService(service)
     if (service_exist_helpdesk == -1)
-      res.status(503).json({ error: 'Errore nell inserimento ticket, il service non corrisponde al helpdesk' });
+      res.status(503).json({ error: 'Errore nell inserimento ticket, il service non corrisponde a nessun helpdesk' });
     else {
-      let lastTicket = await db.searchLastTicket(service, help_desk_number)
-      let ticket = { "customer_number": lastTicket + 1, "help_desk_num": help_desk_number }
+      let lastTicket = await db.searchLastTicket(service)
+      console.log("--> " + lastTicket)
+      let ticket = { "customer_number": lastTicket + 1, "service":service }
 
       try {
         const ticketId = await db.inserTicket(ticket);   //il posto compare nello stato di richiesto (non ancora assegnato)

@@ -9,7 +9,6 @@ const db = new sqlite.Database('office.db', (err) => {
 exports.listOfEmployee = () => {
     return new Promise((resolve, reject) => {
       const sql = 'select * from employee';
-  
       db.all(sql, (err, rows) => {
         if (err) {
           reject(err);
@@ -30,30 +29,74 @@ exports.listOfEmployee = () => {
     });
 };
 
+
+exports.listOfCounter = () => {
+  return new Promise((resolve, reject) => {
+    const sql = 'select * from counter';
+    db.all(sql, (err, rows) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      const counter = rows.map((e) => (
+        {
+          id: e.id_counter,
+          officer: e.officer,
+          name: e.name,
+        })
+      );
+      resolve(counter)
+      
+    });
+
+  });
+};
+
 //list of the services --> needed in the fronted when the administrator has to setup a queue 
 //admin select the service from the list
 exports.listOfService = () => {
+  let service = [];
   return new Promise((resolve, reject) => {
-    const sql = 'select * from service';
+    const sql = 'select * from service  ';
 
     db.all(sql, (err, rows) => {
       if (err) {
         reject(err);
         return;
       }
-      const service = rows.map((e) => (
+      
+      service = rows.map((e) => (
         {
           id: e.id_service,
           type: e.service_type,
           time: e.service_time,
+          counters : []
         })
       );
-      resolve(service)
       
-    });
 
+      resolve(service)
+    });
   });
 };
+
+exports.listOfCounter_service = (id_service) => {
+  let push_count = new Array();
+  return new Promise((resolve, reject) => {
+    const sql1 = 'select counter from helpdesk where service = ?';
+    db.all(sql1, [id_service], (err, rows2) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      rows2.forEach(count =>{
+        push_count.push(count.counter)
+      });
+      resolve(push_count)
+    });
+  });
+
+}
 
 
 
@@ -72,12 +115,28 @@ exports.insertService = (service) => {
 };
 
 
+exports.insertHelpDesk = (serviceId, countList) => {
+  return new Promise ((resolve,reject) => {
+    countList.forEach(countId => {
+      console.log("count: " + countId)
+      const sql = 'INSERT INTO helpdesk(counter, service) VALUES(?, ?)';
+      db.run(sql, [countId, serviceId], function (err) {
+        if (err) {
+          console.log(err);
+          reject(err);
+          return;
+        }
+      });
+    });
+    resolve(1);  //everything is ok. Insert has been done
+  })
+}
 
-exports.searchHelpdeskService = (service, helpdesk) => {
-  
+
+exports.searchHelpdeskService = (service) => {
   return new Promise((resolve, reject) => {
-    const sql = 'select * from helpdesk where id_helpdesk = ? and service = ?';
-    db.get(sql, [helpdesk, service], (err, row) => {
+    const sql = 'select * from helpdesk where service = ?';
+    db.get(sql, [service], (err, row) => {
       if (row==null)
         resolve(-1) //errore
       else
@@ -87,11 +146,10 @@ exports.searchHelpdeskService = (service, helpdesk) => {
   });
 };
 
-exports.searchLastTicket = (service, helpdesk) => {
-  
+exports.searchLastTicket = (service) => {
   return new Promise((resolve, reject) => {
-    const sql = 'select max(customer_number) as max_num from ticket t, helpdesk h  where h.id_helpdesk = ? and t.helpdesk = h.id_helpdesk and h.service = ?';
-    db.get(sql, [helpdesk, service], (err, row) => {
+    const sql = 'select max(customer_number) as max_num from ticket where service =  ?';
+    db.get(sql, [service], (err, row) => {
       if (row.max_num==null)
         resolve(0)
       else
@@ -104,9 +162,10 @@ exports.searchLastTicket = (service, helpdesk) => {
 
 exports.inserTicket = (ticket) => {
   return new Promise((resolve, reject) => {
-    const sql = 'INSERT INTO ticket(customer_number, helpdesk) VALUES(?,?)';
-    db.run(sql, [ticket.customer_number, ticket.help_desk_num], function (err) {
+    const sql = 'INSERT INTO ticket(customer_number, service) VALUES(?,?)';
+    db.run(sql, [ticket.customer_number, ticket.service], function (err) {
       if (err) {
+        console.log(err)
         reject(err);
         return;
       }
@@ -115,19 +174,6 @@ exports.inserTicket = (ticket) => {
   });
 };
 
-
-exports.insertHelpDesk = (helpdesk) => {
-  return new Promise((resolve, reject) => {
-    const sql = 'INSERT INTO HELPDESK(service, officer) VALUES(?,?)';
-    db.run(sql, [helpdesk.service, helpdesk.officer], function (err) {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(this.lastID);
-    });
-  });
-};
 
 
 
