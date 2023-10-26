@@ -39,10 +39,10 @@ app.get('/api/counter', async (req, res) => {
 app.get('/api/services', async (req, res) => {
   try {
     const services = await db.listOfServices()
-    
-    for (let i=0; i<services.length; i++){
+
+    for (let i = 0; i < services.length; i++) {
       const counter_service = await db.listOfCounterService(services[i].id)
-      services[i].counters = counter_service;
+      services[i].counters = [...counter_service];
     }
     res.status(200).json(services);
   } catch (err) {
@@ -55,7 +55,7 @@ app.post('/api/service', async (req, res) => {
   const timeToServe = req.body.time;
   const counterList = req.body.counterList;
 
-  let service = { "type": serviceType, "time": timeToServe  }
+  let service = { "type": serviceType, "time": timeToServe }
 
   try {
     const serviceId = await db.insertService(service);   //il posto compare nello stato di richiesto (non ancora assegnato)
@@ -81,7 +81,7 @@ app.post('/api/ticket', async (req, res) => {
       res.status(503).json({ error: 'Errore nell inserimento ticket, il service non corrisponde a nessun helpdesk' });
     else {
       let lastTicket = await db.searchLastTicket(service)
-      let ticket = { "customer_number": lastTicket + 1, "service":service }
+      let ticket = { "customer_number": lastTicket + 1, "service": service }
 
       try {
         const ticketId = await db.inserTicket(ticket);   //il posto compare nello stato di richiesto (non ancora assegnato)
@@ -98,26 +98,26 @@ app.post('/api/ticket', async (req, res) => {
 
 });
 
-app.delete("/api/services/:idS/delete",[
-  check('idS').isInt({min:1})
-],async(req,res)=>{
+app.delete("/api/services/:idS/delete", [
+  check('idS').isInt({ min: 1 })
+], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(422).json({errors: errors.array()});
+    return res.status(422).json({ errors: errors.array() });
   }
-  
-  const service=db.getService(req.params.idS);
-  if(service){
+
+  const service = db.getService(req.params.idS);
+  if (service) {
     try {
       await db.deleteService(req.params.idS);
       res.status(200).json({ message: "Delete successful" });
-       
+
     } catch (err) {
       console.log(err);
       res.status(503).json({ error: `Database error during the delete of service ${service.type}.` });
     }
   }
-  
+
 })
 
 app.listen(port, () => {

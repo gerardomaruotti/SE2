@@ -18,6 +18,7 @@ function App() {
 	useEffect(() => {
 		API.getServices()
 			.then((services) => {
+				console.log(services);
 				setServices(services);
 			})
 			.catch((err) => handleError(err));
