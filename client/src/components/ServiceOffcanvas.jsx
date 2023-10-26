@@ -1,18 +1,27 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Offcanvas, Form, Button } from 'react-bootstrap';
-import React, { useState } from 'react';
 import Select from 'react-select';
+import { useState } from 'react';
 
 function ServiceOffcanvas(props) {
-	const { show, service, counters, time } = props;
+	const { show, setShow, service, counters, setCounters, time, setService, setTime } = props;
+
+	const [selectedCounters, setSelectedCounters] = useState([]);
 
 	function handleClose() {
-		props.setShow(false);
+		setShow(false);
 	}
 
 	function handleSubmit(event) {
 		event.preventDefault();
-		props.setShow(false);
+
+		const newService = { time: time, type: service, counterList: selectedCounters.map((counter) => counter.id) };
+		props.createService(newService);
+		setShow(false);
+	}
+
+	function handleChange(selectedOptions) {
+		setSelectedCounters(selectedOptions);
 	}
 
 	return (
@@ -43,7 +52,7 @@ function ServiceOffcanvas(props) {
 					</Form.Group>
 					<Form.Group className='mb-3' controlId='formCounterSelection'>
 						<Form.Label>Select Counters</Form.Label>
-						<Select required options={counters} isMulti='true' />
+						<Select required options={counters} isMulti='true' onChange={handleChange} />
 					</Form.Group>
 					<div className='d-grid'>
 						<Button variant='primary' type='submit'>

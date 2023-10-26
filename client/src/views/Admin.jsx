@@ -1,14 +1,28 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Table, Row, Col, Button, Container } from 'react-bootstrap';
 import ServiceOffcanvas from '../components/ServiceOffcanvas';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import API from '../API';
 
 function Admin(props) {
 	const [showOffcanvas, setShowOffcanvas] = useState(false);
 	const [service, setService] = useState('');
 	const [counters, setCounters] = useState([]);
-	const [time, setTime] = useState(0);
+	const [time, setTime] = useState(1);
 	const deleteService = props.deleteService;
+
+	useEffect(() => {
+		API.getCounters()
+			.then((counters) => {
+				counters.map((counter) => {
+					counter.value = counter.id;
+					counter.label = 'Counter ' + counter.id;
+				});
+				setCounters(counters);
+			})
+			.catch((err) => handleError(err));
+	}, []);
+
 	return (
 		<>
 			<Container>
@@ -122,6 +136,7 @@ function Admin(props) {
 				setService={setService}
 				setCounters={setCounters}
 				setTime={setTime}
+				createService={props.createService}
 			/>
 		</>
 	);
