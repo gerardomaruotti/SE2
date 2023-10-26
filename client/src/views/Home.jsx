@@ -1,13 +1,24 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col, Button, Toast, ToastContainer } from 'react-bootstrap';
+import { useState, useEffect } from 'react';
+
 import React from 'react';
 
 function Home(props) {
 	const popup = props.popup;
 	const services = props.services;
+	const requestTicket = props.requestTicket;
+	const lastTicket = props.lastTicket;
 	const colors = [{ col: 0, variant: 'outline-success' }, { col: 1, variant: 'outline-secondary' },
 	{ col: 0, variant: 'outline-primary' }, { col: 1, variant: 'outline-danger' },
 	{ col: 0, variant: 'outline-warning' }, { col: 1, variant: 'outline-info' }]
+
+	useEffect(() => {
+		if (lastTicket != 0) {
+			props.setPopup(true);
+		}
+	}, [lastTicket]);
+
 
 	return (
 		<>
@@ -15,7 +26,7 @@ function Home(props) {
 				<Row style={{}}>
 					{services.map((service, index) =>
 						<Col key={service.id} md={{ span: 3, offset: colors[index % 6].col == 0 ? 3 : 0 }} style={{ marginTop: 34 }}>
-							<Button size='lg' variant={colors[index % 6].variant} style={{ borderRadius: 50, height: 90, width: '100%' }} onClick={() => props.setPopup(true)}>
+							<Button size='lg' variant={colors[index % 6].variant} style={{ borderRadius: 50, height: 90, width: '100%' }} onClick={() => requestTicket(service.id)}>
 								{service.type}
 							</Button>
 						</Col>
@@ -28,7 +39,7 @@ function Home(props) {
 					<Toast.Header>
 						<strong className='me-auto'>Service selected correctly</strong>
 					</Toast.Header>
-					<Toast.Body>Please, collect the ticket!</Toast.Body>
+					<Toast.Body>Please, collect the ticket, Your number is {lastTicket}!</Toast.Body>
 				</Toast>
 			</ToastContainer>
 		</>

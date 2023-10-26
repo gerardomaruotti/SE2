@@ -14,6 +14,7 @@ function App() {
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [popup, setPopup] = useState(false);
 	const [services, setServices] = useState([]);
+	const [lastTicket, setLastTicket] = useState(0);
 
 	useEffect(() => {
 		API.getServices()
@@ -35,11 +36,21 @@ function App() {
 		setUser(null);
 	};
 
+	const requestTicket = (serviceId) => {
+		API.createTicket({ service: serviceId })
+			.then((ticketId) => {
+				setLastTicket(ticketId);
+			})
+			.catch((err) => {
+				setLastTicket(0);
+			});
+	}
+
 	return (
 		<BrowserRouter>
 			<MyNavbar loggedIn={loggedIn} logout={handleLogout} />
 			<Routes>
-				<Route path='/' element={<Home popup={popup} setPopup={setPopup} services={services} />} />
+				<Route path='/' element={<Home popup={popup} setPopup={setPopup} services={services} requestTicket={requestTicket} lastTicket={lastTicket} />} />
 				<Route path='/login' element={<Login show={show} setShow={setShow} login={handleLogin} />} />
 				<Route path='/officer' element={<Officer popup={popup} setPopup={setPopup} />} />
 				<Route path='/admin' element={<Admin />} />

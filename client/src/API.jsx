@@ -23,8 +23,32 @@ function getServices() {
     });
 }
 
+function createTicket(service) {
+    // call  POST /api/ticket
+    return new Promise((resolve, reject) => {
+        fetch(URL + `/ticket`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(service),
+        }).then((response) => {
+            if (response.ok) {
+                response.json()
+                    .then((ticket) => resolve(ticket))
+                    .catch(() => { reject({ error: "Cannot parse server response." }) });
+            } else {
+                // analyze the cause of error
+                response.json()
+                    .then((message) => { reject(message); }) // error message in the response body
+                    .catch(() => { reject({ error: "Cannot parse server response." }) });
+            }
+        }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
+}
+
 
 const API = {
-    getServices
+    getServices, createTicket
 };
 export default API;
