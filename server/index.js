@@ -77,21 +77,24 @@ app.post('/api/ticket', async (req, res) => {
     //controllare che ci sia il service 
     let service_exist_helpdesk = await db.searchHelpdeskService(service)
     if (service_exist_helpdesk == -1)
-      res.status(503).json({ error: 'Errore nell inserimento ticket, il service non corrisponde a nessun helpdesk' });
+      return res.status(503).json({ error: 'Errore nell inserimento ticket, il service non corrisponde a nessun helpdesk' });
     else {
-      let lastTicket = await db.searchLastTicket(service)
-      let ticket = { "customer_number": lastTicket + 1, "service": service }
+      try{
+        let lastTicket = await db.searchLastTicket(service)
+        let ticket = { "customer_number": lastTicket + 1, "service": service }
 
-      try {
-        const ticketId = await db.inserTicket(ticket);   //il posto compare nello stato di richiesto (non ancora assegnato)
-        res.status(200).json(ticketId);
-      } catch (err) {
-        return res.status(503).json({ error: 'Errore nell inserimento' });
+        try {
+          const ticketId = await db.inserTicket(ticket);   //il posto compare nello stato di richiesto (non ancora assegnato)
+          return res.status(200).json(ticketId)
+        } catch (err) {
+         return res.status(503).json({ error: 'Errore nell inserimento' });
+        }
+      } catch(err){
+          return res.status(503).json("Errore nella ricerca del last ticket")
       }
     }
-
   } catch (err) {
-    res.status(500).end();
+    return res.status(500).end();
   }
   //il customer number deve essere calcolato in base a cosa si trova all'interno della tabella ticket con lo stesso servizio
 
