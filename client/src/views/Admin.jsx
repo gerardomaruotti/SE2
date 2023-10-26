@@ -43,7 +43,11 @@ function Admin(props) {
 									<tr key={service.id}>
 										<td>{service.type}</td>
 										{service.counters.length > 0 ? (
-											<td style={{ textAlign: 'center' }}>{service.counters.map((counter) => counter.id_counter + ' ')}</td>
+											<td style={{ textAlign: 'center' }}>
+												{service.counters.map((counter, index) => {
+													return index !== service.counters.length - 1 ? counter.id_counter + ' - ' : counter.id_counter;
+												})}
+											</td>
 										) : (
 											<td style={{ textAlign: 'center' }}>/</td>
 										)}
