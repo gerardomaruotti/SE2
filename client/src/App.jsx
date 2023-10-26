@@ -44,6 +44,36 @@ function App() {
 			.catch((err) => handleError(err));
 	};
 
+	const updateService = (service, serviceId) => {
+		API.createService(service)
+			.then(() => {
+				API.deleteService(serviceId)
+					.then(() => {
+						API.getServices()
+							.then((services) => {
+								console.log(services);
+								setServices(services);
+							})
+							.catch((err) => handleError(err));
+					})
+					.catch((err) => handleError(err));
+			})
+			.catch((err) => handleError(err));
+	};
+
+	const createService = (service) => {
+		API.createService(service)
+			.then(() => {
+				API.getServices()
+					.then((services) => {
+						console.log(services);
+						setServices(services);
+					})
+					.catch((err) => handleError(err));
+			})
+			.catch((err) => handleError(err));
+	};
+
 	const handleLogin = () => {
 		setLoggedIn(true);
 		setUser(null);
@@ -65,6 +95,8 @@ function App() {
 			});
 	};
 
+
+
 	return (
 		<BrowserRouter>
 			<MyNavbar loggedIn={loggedIn} logout={handleLogout} />
@@ -75,7 +107,7 @@ function App() {
 				/>
 				<Route path='/login' element={<Login show={show} setShow={setShow} login={handleLogin} />} />
 				<Route path='/officer' element={<Officer popup={popup} setPopup={setPopup} />} />
-				<Route path='/admin' element={<Admin services={services} setServices={setServices} deleteService={deleteService} />} />
+				<Route path='/admin' element={<Admin services={services} setServices={setServices} deleteService={deleteService} updateService={updateService} createService={createService} />} />
 				<Route path='/*' element={<Home />} />
 			</Routes>
 		</BrowserRouter>
