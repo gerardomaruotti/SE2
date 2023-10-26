@@ -19,7 +19,6 @@ function App() {
 	useEffect(() => {
 		API.getServices()
 			.then((services) => {
-				console.log(services);
 				setServices(services);
 			})
 			.catch((err) => handleError(err));
@@ -36,7 +35,6 @@ function App() {
 			.then((services) => {
 				API.getServices()
 					.then((services) => {
-						console.log(services);
 						setServices(services);
 					})
 					.catch((err) => handleError(err));
@@ -44,29 +42,27 @@ function App() {
 			.catch((err) => handleError(err));
 	};
 
-	const updateService = (service, serviceId) => {
-		API.createService(service)
-			.then(() => {
-				API.deleteService(serviceId)
-					.then(() => {
-						API.getServices()
-							.then((services) => {
-								console.log(services);
-								setServices(services);
-							})
-							.catch((err) => handleError(err));
-					})
-					.catch((err) => handleError(err));
-			})
-			.catch((err) => handleError(err));
-	};
+	// const updateService = (service, serviceId) => {
+	// 	API.createService(service)
+	// 		.then(() => {
+	// 			API.deleteService(serviceId)
+	// 				.then(() => {
+	// 					API.getServices()
+	// 						.then((services) => {
+	// 							setServices(services);
+	// 						})
+	// 						.catch((err) => handleError(err));
+	// 				})
+	// 				.catch((err) => handleError(err));
+	// 		})
+	// 		.catch((err) => handleError(err));
+	// };
 
 	const createService = (service) => {
 		API.createService(service)
 			.then(() => {
 				API.getServices()
 					.then((services) => {
-						console.log(services);
 						setServices(services);
 					})
 					.catch((err) => handleError(err));
@@ -107,7 +103,7 @@ function App() {
 				/>
 				<Route path='/login' element={<Login show={show} setShow={setShow} login={handleLogin} />} />
 				<Route path='/officer' element={<Officer popup={popup} setPopup={setPopup} />} />
-				<Route path='/admin' element={<Admin services={services} setServices={setServices} deleteService={deleteService} updateService={updateService} createService={createService} />} />
+				<Route path='/admin' element={<Admin services={services} setServices={setServices} deleteService={deleteService} createService={createService} />} />
 				<Route path='/*' element={<Home />} />
 			</Routes>
 		</BrowserRouter>
