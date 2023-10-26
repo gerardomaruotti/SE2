@@ -17,6 +17,8 @@ function ServiceOffcanvas(props) {
 
 		const newService = { time: time, type: service, counterList: selectedCounters.map((counter) => counter.id) };
 		props.createService(newService);
+		setService('');
+		setTime(1);
 		setShow(false);
 	}
 
