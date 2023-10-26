@@ -13,7 +13,7 @@ app.use(express.json());
 
 const corsOptions = {
   origin: 'http://localhost:5173',
-  credentials: true,
+  // credentials: true,
 };
 app.use(cors(corsOptions));
 
@@ -73,7 +73,6 @@ app.post('/api/service', async (req, res) => {
 
 app.post('/api/ticket', async (req, res) => {
   const service = req.body.service; //deciso dall'admin
-
   try {
     //controllare che ci sia il service 
     let service_exist_helpdesk = await db.searchHelpdeskService(service)
@@ -85,7 +84,7 @@ app.post('/api/ticket', async (req, res) => {
 
       try {
         const ticketId = await db.inserTicket(ticket);   //il posto compare nello stato di richiesto (non ancora assegnato)
-        res.status(200).json("Inserimento ticket avvenuto con successo")
+        res.status(200).json(ticketId);
       } catch (err) {
         return res.status(503).json({ error: 'Errore nell inserimento' });
       }
