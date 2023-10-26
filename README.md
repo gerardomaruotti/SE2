@@ -39,14 +39,14 @@
 - Route `/`: main page which contains a navbar and the list of services that we can request a ticket for
 - Route `/login`: login form 
 - Route `/officer`: it displays the page with the point of view of the officer, where he can call the next client and see the ticket code
-- Route `/admin`: it displays the page with the point of view of the admin, he sees all the services, can modify them and also create a new one
+- Route `/admin`: it displays the page with the point of view of the admin, he sees all the services, can delete them and also create a new one
 - Route `/*`: redirect the site to the homepage
 
 
 ## Main React Components
 
 - `Home` (in `Home.jsx`): component that contains the list of services for which I can request a ticket by clicking on them, interface for the client
-- `Admin` (in `Admin.jsx`): component where I can create a new service or edit/delete an existing one, interface for the admin
+- `Admin` (in `Admin.jsx`): component where I can create a new service or delete an existing one, interface for the admin
 - `ServiceOffcanvas` (in `ServiceOffcanvas.jsx`): component that contains the form to create a new service
 - `Officer` (in `Officer.jsx`): compontent that contains a button for calling the next client, interface for the officer
 - `MyNavbar` (in `MyNavbar.jsx`): component that contains the layout of the webside, in particular the navbar with the title and login/logout button
