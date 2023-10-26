@@ -52,3 +52,15 @@
 - `MyNavbar` (in `MyNavbar.jsx`): component that contains the layout of the webside, in particular the navbar with the title and login/logout button
 - `Login` ( in `Login.jsx`): component that contains the login form
 
+
+## Example Screenshot
+
+### Home
+![Screenshot](./images/Screenshot1.jpeg)
+### Admin
+![Screenshot](./images/Screenshot2.jpeg)
+![Screenshot](./images/Screenshot3.jpeg)
+### Officer
+![Screenshot](./images/Screenshot4.jpeg)
+### Login
+![Screenshot](./images/Screenshot5.jpeg)
