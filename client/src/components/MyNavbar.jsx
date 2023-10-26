@@ -13,7 +13,7 @@ function MyNavbar(props) {
 	return (
 		<Navbar className='bg-body-tertiary'>
 			<Container>
-				<Navbar.Brand style={{ width: '100%', textAlign: 'center', cursor: 'pointer' }} onClick={() => navigate('/')}>
+				<Navbar.Brand style={{ width: '100%', textAlign: 'center' }}>
 					OfficeQueueManagement
 				</Navbar.Brand>
 				{props.loggedIn ? (
