@@ -88,15 +88,10 @@ exports.getService=(id_service) => {
         reject(err);
         return;
       }
-        const service={
-          id: row.id_service,
-          type: row.service_type,
-          time: row.service_time
-        }
-
-        
-        resolve(service);
-        
+      if (row!=null || row !=undefined)
+        resolve(1)
+      else 
+        resolve(-1)
     })
   })
 }
@@ -202,9 +197,25 @@ exports.deleteService=(id_service) => {
       if(err){
         reject(err);
         return;
+      }else{
+        const sql2='DELETE FROM TICKET WHERE service=?';
+        db.run(sql2,[id_service],function(err){
+          if(err){
+            reject(err);
+            return;
+          }else{
+            const sql3='DELETE FROM HELPDESK WHERE service=?';
+            db.run(sql3,[id_service],function(err){
+              if(err){
+                reject(err);
+                return;
+              }else{
+                resolve(true);
+              }
+            })
+          }
+        });
       }
-
-      resolve(true);
     })
   })
 }

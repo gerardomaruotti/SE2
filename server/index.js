@@ -108,8 +108,9 @@ app.delete("/api/services/:idS/delete", [
     return res.status(422).json({ errors: errors.array() });
   }
 
-  const service = db.getService(req.params.idS);
-  if (service) {
+  const service_existence = await db.getService(req.params.idS);
+  console.log(service_existence)
+  if (service_existence) {
     try {
       await db.deleteService(req.params.idS);
       res.status(200).json({ message: "Delete successful" });
