@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { Form, Button, Row, Col, Alert, Container } from 'react-bootstrap';
 
 function Login(props) {
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
+	const [username, setUsername] = useState('admin@polito.it');
+	const [password, setPassword] = useState('òashfaosufhlaisfhlakushfg');
 
 	const [errorMessage, setErrorMessage] = useState('');
 	const show = props.show;
