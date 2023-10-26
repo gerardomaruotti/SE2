@@ -9,9 +9,14 @@ function Home(props) {
 	const services = props.services;
 	const requestTicket = props.requestTicket;
 	const lastTicket = props.lastTicket;
-	const colors = [{ col: 0, variant: 'outline-success' }, { col: 1, variant: 'outline-secondary' },
-	{ col: 0, variant: 'outline-primary' }, { col: 1, variant: 'outline-danger' },
-	{ col: 0, variant: 'outline-warning' }, { col: 1, variant: 'outline-info' }]
+	const colors = [
+		{ col: 0, variant: 'outline-success' },
+		{ col: 1, variant: 'outline-secondary' },
+		{ col: 0, variant: 'outline-primary' },
+		{ col: 1, variant: 'outline-danger' },
+		{ col: 0, variant: 'outline-warning' },
+		{ col: 1, variant: 'outline-info' },
+	];
 
 	useEffect(() => {
 		if (lastTicket != 0) {
@@ -19,18 +24,34 @@ function Home(props) {
 		}
 	}, [lastTicket]);
 
-
 	return (
 		<>
 			<Container style={{ textAlign: 'center', marginTop: 100 }}>
 				<Row style={{}}>
-					{services.map((service, index) =>
+					{services.map((service, index) => (
 						<Col key={service.id} md={{ span: 3, offset: colors[index % 6].col == 0 ? 3 : 0 }} style={{ marginTop: 34 }}>
-							<Button size='lg' variant={colors[index % 6].variant} style={{ borderRadius: 50, height: 90, width: '100%' }} onClick={() => requestTicket(service.id)}>
-								{service.type}
-							</Button>
+							{service.counters.length > 0 ? (
+								<Button
+									size='lg'
+									variant={colors[index % 6].variant}
+									style={{ borderRadius: 50, height: 90, width: '100%' }}
+									onClick={() => requestTicket(service.id)}
+								>
+									{service.type}
+								</Button>
+							) : (
+								<Button
+									size='lg'
+									variant={colors[index % 6].variant}
+									style={{ borderRadius: 50, height: 90, width: '100%' }}
+									onClick={() => requestTicket(service.id)}
+									disabled
+								>
+									{service.type}
+								</Button>
+							)}
 						</Col>
-					)}
+					))}
 				</Row>
 			</Container>
 

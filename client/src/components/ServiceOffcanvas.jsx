@@ -4,29 +4,16 @@ import React, { useState } from 'react';
 import Select from 'react-select';
 
 function ServiceOffcanvas(props) {
-	const show = props.show;
-	const [service, setService] = useState('');
-	const [counters, setCounters] = useState([]);
-	const [time, setTime] = useState(0);
+	const { show, service, counters, time } = props;
 
 	function handleClose() {
 		props.setShow(false);
-		setService('');
-		setCounters([]);
 	}
 
 	function handleSubmit(event) {
 		event.preventDefault();
 		props.setShow(false);
-		setService('');
-		setCounters([]);
 	}
-
-	const counterslist = [
-		{ value: 1, label: 'Counter 1' },
-		{ value: 2, label: 'Counter 2' },
-		{ value: 3, label: 'Counter 3' },
-	];
 
 	return (
 		<Offcanvas show={show} onHide={handleClose}>
@@ -56,7 +43,7 @@ function ServiceOffcanvas(props) {
 					</Form.Group>
 					<Form.Group className='mb-3' controlId='formCounterSelection'>
 						<Form.Label>Select Counters</Form.Label>
-						<Select required options={counterslist} isMulti='true' />
+						<Select required options={counters} isMulti='true' />
 					</Form.Group>
 					<div className='d-grid'>
 						<Button variant='primary' type='submit'>

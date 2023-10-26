@@ -44,16 +44,19 @@ function App() {
 			.catch((err) => {
 				setLastTicket(0);
 			});
-	}
+	};
 
 	return (
 		<BrowserRouter>
 			<MyNavbar loggedIn={loggedIn} logout={handleLogout} />
 			<Routes>
-				<Route path='/' element={<Home popup={popup} setPopup={setPopup} services={services} requestTicket={requestTicket} lastTicket={lastTicket} />} />
+				<Route
+					path='/'
+					element={<Home popup={popup} setPopup={setPopup} services={services} requestTicket={requestTicket} lastTicket={lastTicket} />}
+				/>
 				<Route path='/login' element={<Login show={show} setShow={setShow} login={handleLogin} />} />
 				<Route path='/officer' element={<Officer popup={popup} setPopup={setPopup} />} />
-				<Route path='/admin' element={<Admin />} />
+				<Route path='/admin' element={<Admin services={services} setServices={setServices} />} />
 				<Route path='/*' element={<Home />} />
 			</Routes>
 		</BrowserRouter>
