@@ -4,6 +4,12 @@ import { useNavigate } from 'react-router-dom';
 
 function MyNavbar(props) {
 	const navigate = useNavigate();
+
+	const handleLogout = () => {
+		props.logout();
+		navigate('/');
+	};
+
 	return (
 		<Navbar className='bg-body-tertiary'>
 			<Container>
@@ -11,7 +17,7 @@ function MyNavbar(props) {
 					OfficeQueueManagement
 				</Navbar.Brand>
 				{props.loggedIn ? (
-					<Button variant='outline-danger' onClick={props.logout}>
+					<Button variant='outline-danger' onClick={handleLogout}>
 						Logout
 					</Button>
 				) : (

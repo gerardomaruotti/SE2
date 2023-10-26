@@ -15,6 +15,7 @@ function Login(props) {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		const credentials = { username, password };
+		props.login();
 		navigate('/admin');
 		// props
 		// 	.login(credentials)

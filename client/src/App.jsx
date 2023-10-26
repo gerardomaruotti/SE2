@@ -6,7 +6,7 @@ import Officer from './views/Officer';
 import Admin from './views/Admin';
 import MyNavbar from './components/MyNavbar';
 import { useState, useEffect } from 'react';
-import API from './API'
+import API from './API';
 
 function App() {
 	const [show, setShow] = useState(false);
@@ -23,6 +23,11 @@ function App() {
 			.catch((err) => handleError(err));
 	}, []);
 
+	const handleLogin = () => {
+		setLoggedIn(true);
+		setUser(null);
+	};
+
 	const handleLogout = () => {
 		// await API.logOut();
 		setLoggedIn(false);
@@ -34,7 +39,7 @@ function App() {
 			<MyNavbar loggedIn={loggedIn} logout={handleLogout} />
 			<Routes>
 				<Route path='/' element={<Home popup={popup} setPopup={setPopup} services={services} />} />
-				<Route path='/login' element={<Login show={show} setShow={setShow} />} />
+				<Route path='/login' element={<Login show={show} setShow={setShow} login={handleLogin} />} />
 				<Route path='/officer' element={<Officer popup={popup} setPopup={setPopup} />} />
 				<Route path='/admin' element={<Admin />} />
 				<Route path='/*' element={<Home />} />
