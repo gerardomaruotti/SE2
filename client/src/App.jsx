@@ -23,7 +23,26 @@ function App() {
 				setServices(services);
 			})
 			.catch((err) => handleError(err));
-	}, []);
+	}, [services.length]);
+
+	const handleError = (err) => {
+		if (err) {
+			console.log(err);
+		}
+	};
+
+	const deleteService = (serviceId) => {
+		API.deleteService(serviceId)
+			.then((services) => {
+				API.getServices()
+					.then((services) => {
+						console.log(services);
+						setServices(services);
+					})
+					.catch((err) => handleError(err));
+			})
+			.catch((err) => handleError(err));
+	};
 
 	const handleLogin = () => {
 		setLoggedIn(true);
@@ -56,7 +75,7 @@ function App() {
 				/>
 				<Route path='/login' element={<Login show={show} setShow={setShow} login={handleLogin} />} />
 				<Route path='/officer' element={<Officer popup={popup} setPopup={setPopup} />} />
-				<Route path='/admin' element={<Admin services={services} setServices={setServices} />} />
+				<Route path='/admin' element={<Admin services={services} setServices={setServices} deleteService={deleteService} />} />
 				<Route path='/*' element={<Home />} />
 			</Routes>
 		</BrowserRouter>

@@ -8,6 +8,7 @@ function Admin(props) {
 	const [service, setService] = useState('');
 	const [counters, setCounters] = useState([]);
 	const [time, setTime] = useState(0);
+	const deleteService = props.deleteService;
 	return (
 		<>
 			<Container>
@@ -34,7 +35,12 @@ function Admin(props) {
 										)}
 										<td style={{ textAlign: 'center' }}>{service.time}</td>
 										<td key={service.id} style={{ textAlign: 'right' }}>
-											<Button size='sm' variant='outline-danger' style={{ borderRadius: 20, width: 50, display: 'inline-block', marginRight: 10 }}>
+											<Button
+												size='sm'
+												variant='outline-danger'
+												style={{ borderRadius: 20, width: 50, display: 'inline-block', marginRight: 10 }}
+												onClick={() => deleteService(service.id)}
+											>
 												<svg
 													xmlns='http://www.w3.org/2000/svg'
 													width='16'
