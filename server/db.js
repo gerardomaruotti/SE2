@@ -1,32 +1,35 @@
 'use strict';
-
+let db;
 const sqlite = require('sqlite3');
-const db = new sqlite.Database('office.db', (err) => {
+db = new sqlite.Database('office.db', (err) => {
   if(err) throw err;
 });
 
+exports.init = (database) => {
+  db = database;
+}
 
 exports.listOfEmployee = () => {
-    return new Promise((resolve, reject) => {
-      const sql = 'select * from employee';
-      db.all(sql, (err, rows) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        const employee = rows.map((e) => (
-          {
-            id: e.id_employee,
-            name: e.name,
-            surname: e.surname,
-            role: e.role,
-          })
-        );
-        resolve(employee)
-        
-      });
-
+  return new Promise((resolve, reject) => {
+    const sql = 'select * from employee';
+    db.all(sql, (err, rows) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      const employee = rows.map((e) => (
+        {
+          id: e.id_employee,
+          name: e.name,
+          surname: e.surname,
+          role: e.role,
+        })
+      );
+      resolve(employee)
+      
     });
+
+  });
 };
 
 
@@ -95,6 +98,7 @@ exports.getService=(id_service) => {
     })
   })
 }
+
 
 exports.listOfCounterService = (id_service) => {
   return new Promise((resolve, reject) => {
@@ -219,4 +223,3 @@ exports.deleteService=(id_service) => {
     })
   })
 }
-

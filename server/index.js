@@ -7,13 +7,13 @@ const session = require('express-session'); // enable sessions
 
 
 const db = require('./db'); // module for accessing the DB
-const port = 3001;
+const port = process.env.PORT || 3001;
 const app = express();
 app.use(express.json());
 
 const corsOptions = {
   origin: 'http://localhost:5173',
-  // credentials: true,
+  credentials: true,
 };
 app.use(cors(corsOptions));
 
@@ -39,7 +39,6 @@ app.get('/api/counter', async (req, res) => {
 app.get('/api/services', async (req, res) => {
   try {
     const services = await db.listOfServices()
-
     for (let i = 0; i < services.length; i++) {
       const counter_service = await db.listOfCounterService(services[i].id)
       services[i].counters = [...counter_service];
@@ -66,9 +65,6 @@ app.post('/api/service', async (req, res) => {
     return res.status(503).json({ error: 'Errore nell inserimento' });
   }
 });
-
-
-
 
 
 app.post('/api/ticket', async (req, res) => {
@@ -117,12 +113,11 @@ app.delete("/api/services/:idS/delete", [
 
     } catch (err) {
       console.log(err);
-      res.status(503).json({ error: `Database error during the delete of service ${service.type}.` });
+      res.status(503).json({ error: `Database error during the delete of service.` });
     }
   }
 
 })
 
-app.listen(port, () => {
-  console.log(`react-qa-server listening at http://localhost:${port}`);
-});
+module.exports = { app, port };
+
