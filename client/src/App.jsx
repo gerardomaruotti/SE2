@@ -23,7 +23,7 @@ function App() {
 				setServices(services);
 			})
 			.catch((err) => handleError(err));
-	}, [services.length]);
+	}, []);
 
 	const handleError = (err) => {
 		if (err) {
