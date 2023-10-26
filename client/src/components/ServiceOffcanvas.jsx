@@ -54,7 +54,7 @@ function ServiceOffcanvas(props) {
 					</Form.Group>
 					<Form.Group className='mb-3' controlId='formCounterSelection'>
 						<Form.Label>Select Counters</Form.Label>
-						<Select required options={counters} isMulti='true' onChange={handleChange} />
+						<Select options={counters} isMulti='true' onChange={handleChange} />
 					</Form.Group>
 					<div className='d-grid'>
 						<Button variant='primary' type='submit'>
