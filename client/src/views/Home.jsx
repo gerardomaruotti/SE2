@@ -28,7 +28,7 @@ function Home(props) {
 		<>
 			<Container style={{ textAlign: 'center', marginTop: 100 }}>
 				<Row style={{}}>
-					<h1>PLease select a service</h1>
+					<h1>Please select a service</h1>
 					{services.map((service, index) => (
 						<Col key={service.id} md={{ span: 3, offset: colors[index % 6].col == 0 ? 3 : 0 }} style={{ marginTop: 34 }}>
 							{service.counters.length > 0 ? (
