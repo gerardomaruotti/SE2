@@ -13,9 +13,7 @@ function MyNavbar(props) {
 	return (
 		<Navbar className='bg-body-tertiary'>
 			<Container>
-				<Navbar.Brand style={{ width: '100%', textAlign: 'center' }}>
-					OfficeQueueManagement
-				</Navbar.Brand>
+				<Navbar.Brand style={{ width: '100%', textAlign: 'center' }}>Office Queue Management</Navbar.Brand>
 				{props.loggedIn ? (
 					<Button variant='outline-danger' onClick={handleLogout}>
 						Logout
