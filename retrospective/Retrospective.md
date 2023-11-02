@@ -62,14 +62,12 @@ sections:
 <br>Hours per task average (actual) = 2h 30m
 <br>Standard deviation (estimate) = 0.63h
 <br>Standard deviation (actual) = 1.2h
-
-<br><br>- Task #1: 
+<br><br> - Task #1: 
 <br>Hours per task average (estimate) = 1h 10m
 <br>Hours per task average (actual) = 1h 57m
 <br>Standard deviation (estimate) = 0.47h
 <br>Standard deviation (actual) = 0.87h
-
-<br><br>General: 
+<br><br>- General: 
 <br>Hours per task average (estimate) = 1h 27m
 <br>Hours per task average (actual) = 2h 15m
 <br>Standard deviation (estimate) = 0.62h
@@ -79,7 +77,6 @@ sections:
 <br><br> - Task #0: -0.31 
 <br><br> - Task #1: -0.4
 <br><br> - General: -0.35
-
 
   
 ## QUALITY MEASURES 
