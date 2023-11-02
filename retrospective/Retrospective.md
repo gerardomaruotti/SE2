@@ -1,8 +1,5 @@
-TEMPLATE FOR RETROSPECTIVE (Team ##)
+TEMPLATE FOR RETROSPECTIVE (Team 18)
 =====================================
-
-The retrospective should include _at least_ the following
-sections:
 
 - [process measures](#process-measures)
 - [quality measures](#quality-measures)
@@ -57,12 +54,12 @@ sections:
 > place technical tasks corresponding to story `#0` and leave out story points (not applicable in this case)
 
 - Hours per task average, standard deviation (estimate and actual)
-<br><br> - Task #0: 
+<br><br> - Story #0: 
 <br>Hours per task average (estimate) = 1h 45m
 <br>Hours per task average (actual) = 2h 30m
 <br>Standard deviation (estimate) = 0.63h
 <br>Standard deviation (actual) = 1.2h
-<br><br> - Task #1: 
+<br><br> - Story #1: 
 <br>Hours per task average (estimate) = 1h 10m
 <br>Hours per task average (actual) = 1h 57m
 <br>Standard deviation (estimate) = 0.47h
